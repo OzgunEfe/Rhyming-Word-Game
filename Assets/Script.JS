@@ -10,6 +10,7 @@ var options = {
 	}
 };
 
+
 fetch('https://wordsapiv1.p.rapidapi.com/words/?random=true', options)
 	.then(function(response){return response.json()})
 	.then(function(response){console.log(response)})
@@ -31,3 +32,26 @@ fetch('https://wordsapiv1.p.rapidapi.com/words/cat/rhymes', options)
 
 
 
+
+
+$(".start-game").click(function() {
+    $(".title").addClass("hide")
+    $(".explanation").addClass("hide")
+    $("button").addClass("hide")
+
+    $(".word-section").append(`
+    <p>Your word is "Dog"</p>
+    `)
+
+    $(".text-area-section").append(`
+    <textarea name="textarea" id="text-area" cols="50" rows="10"></textarea>
+    `)
+
+    $(".submit-btn").append(`
+    <button>Submit</button>
+    `)
+
+    $(".timer").append(`
+    <p>Time: 20</p>
+    `)
+});
