@@ -1,6 +1,17 @@
 var apiKey = '0ae7e99fbfmshd97cb110dc86311p147747jsn8b3f079ea990';
 var randomWord = 'https://wordsapiv1.p.rapidapi.com/words/';
 var baseURL = 'http://wordsapiv1.p.mashape.com/words/cat/rhymes';
+var giphyApiKey = 'Ctqe3iQ5R6rKCRyBufsfQTuwmkVQ44QH';
+var giphyURL = 'https://api.giphy.com/v1/stickers/search?api_key=Ctqe3iQ5R6rKCRyBufsfQTuwmkVQ44QH&q=congratulations&limit=1&rating=g';
+
+console.log(giphyURL);
+
+fetch(giphyURL)
+	.then(function(response){return response.json()})
+	.then(function(response){console.log(response)})
+	.catch(function(err){console.error(err)}); 
+
+
 
 var options = {
 	method: 'GET',
