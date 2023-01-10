@@ -6,6 +6,8 @@ var giphyURL =
   "https://api.giphy.com/v1/stickers/search?api_key=Ctqe3iQ5R6rKCRyBufsfQTuwmkVQ44QH&q=congratulations&limit=1&rating=g";
 var time = 20;
 
+$('#staticBackdrop').modal('hide')
+
 rhymeArray = [];
 
 function getRhymeWord(randomWord) {
@@ -23,16 +25,24 @@ function getRhymeWord(randomWord) {
     });
 }
 
-fetch(giphyURL)
-  .then(function (response) {
-    return response.json();
-  })
-  .then(function (response) {
-    console.log(response);
-  })
-  .catch(function (err) {
-    console.error(err);
-  });
+function getGif(){
+	fetch(giphyURL)
+	.then(function (response) {
+	  return response.json();
+	})
+	.then(function (response) {
+	  var gifImg = response.data[0].images.original.url;
+	  console.log(gifImg);
+	  $('#gif-img').attr("src", gifImg)
+	  $('#user-score').append(`
+	  	<p>Your Score: ${userScore}</p>
+	  `)
+	  $('#staticBackdrop').modal('show')
+	})
+	.catch(function (err) {
+	  console.error(err);
+	});
+}
 
 var options = {
   method: "GET",
@@ -70,9 +80,12 @@ randomWord
 	
 		if (time === 0) {
 		  clearInterval(timer);
+		  $('.game-screen').addClass("hide");
+		  getGif()
 		}
 	  }, 1000);
   }
+
 
 // This function starts game
 $(".start-game").click(function () {
@@ -124,12 +137,13 @@ $(".start-game").click(function () {
 
 });
 
-
+var userScore = 0
 function clickEnter(){
 	$("#input-area").keypress(function(e) {
 		if(e.which == 13) {
 		  var inputValue = $(this).val();
 		  if (rhymeArray[0].rhymes.all.includes(inputValue)){
+			userScore++
 			$(".correct-card").append(`
 				<li class="list-group-item">${inputValue}</li>
 			`)
@@ -143,3 +157,7 @@ function clickEnter(){
 	  });
 }
 
+//data[0].images.original.mp4
+// 	  $('.score-screen').removeClass("hide")
+
+// response.data[0].images.original.url
