@@ -5,10 +5,13 @@ var giphyApiKey = "Ctqe3iQ5R6rKCRyBufsfQTuwmkVQ44QH";
 var giphyURL =
   "https://api.giphy.com/v1/stickers/search?api_key=Ctqe3iQ5R6rKCRyBufsfQTuwmkVQ44QH&q=congratulations&limit=1&rating=g";
 var time = 20;
+var date = moment().format('L')
+var hour = moment().format('LT');
 
 $('#staticBackdrop').modal('hide')
 
 rhymeArray = [];
+scoreArray = JSON.parse(localStorage.getItem("scores")) || [];
 
 function getRhymeWord(randomWord) {
   fetch(`https://wordsapiv1.p.rapidapi.com/words/${randomWord}/rhymes`, options)
@@ -25,6 +28,7 @@ function getRhymeWord(randomWord) {
     });
 }
 
+// We use the gif api here. 
 function getGif(){
 	fetch(giphyURL)
 	.then(function (response) {
@@ -32,7 +36,6 @@ function getGif(){
 	})
 	.then(function (response) {
 	  var gifImg = response.data[0].images.original.url;
-	  console.log(gifImg);
 	  $('#gif-img').attr("src", gifImg)
 	  $('#user-score').append(`
 	  	<p>Your Score: ${userScore}</p>
@@ -88,61 +91,68 @@ randomWord
 
 
 // This function starts game
-$(".start-game").click(function () {
-  $(".start-screen").addClass("hide");
+function startGame(){
+	$(".start-game").click(function () {
+		$(".start-screen").addClass("hide");
+	  
+		timerFunction()
+		$(".game-screen").append(`
+			  <div class="row justify-content-md-end">
+				  <div class="col-md-auto timer align-self-end mb-4 mt-3">
+					  Time: ${time}
+				  </div>
+			  </div>
+			  <div class="row mb-5">
+				  <div class="col">
+					  <div class="row justify-content-md-center mb-4">
+						  <div class="col-md-auto align-self-center">
+							  <h5>Your Word: <span style="color: red; font-size: 36px;">${window.randomWordValue}</span></h5>
+						  </div>
+					  </div>
+					  <div class="row justify-content-md-center">
+						  <div class="col-md-auto word-section align-self-center">
+							  <input class="form-control form-control-lg" id="input-area" type="text" placeholder="Enter your rhyming word">
+						  </div>
+					  </div>
+				  </div>
+			  </div>
+			  <div class="row justify-content-md-center">
+				  <div class="col-md-auto align-self-center mr-3">
+					  <div class="card" style="width: 18rem;">
+						  <div class="card-body">
+							<h5 class="card-title">Correct!</h5>
+						  </div>
+						  <ul class="list-group list-group-flush correct-card"></ul>
+						</div>
+				  </div>
+				  <div class="col-md-auto align-self-center ml-3">
+					  <div class="card" style="width: 18rem;">
+						  <div class="card-body">
+							<h5 class="card-title">Wrong!</h5>
+						  </div>
+						  <ul class="list-group list-group-flush wrong-card"></ul>
+						</div>
+				  </div>
+			  </div>
+		  
+		  `);
+	  
+		  clickEnter()
+	  
+	  });
+}
 
-  timerFunction()
-  $(".game-screen").append(`
-		<div class="row justify-content-md-end">
-            <div class="col-md-auto timer align-self-end mb-4 mt-3">
-                Time: ${time}
-            </div>
-        </div>
-        <div class="row mb-5">
-            <div class="col">
-                <div class="row justify-content-md-center mb-4">
-                    <div class="col-md-auto align-self-center">
-                        <h5>Your Word: ${window.randomWordValue}</h5>
-                    </div>
-                </div>
-                <div class="row justify-content-md-center">
-                    <div class="col-md-auto word-section align-self-center">
-                        <input class="form-control form-control-lg" id="input-area" type="text" placeholder="Enter your rhyming word">
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row justify-content-md-center">
-            <div class="col-md-auto align-self-center mr-3">
-                <div class="card" style="width: 18rem;">
-                    <div class="card-body">
-                      <h5 class="card-title">Correct!</h5>
-                    </div>
-                    <ul class="list-group list-group-flush correct-card"></ul>
-                  </div>
-            </div>
-            <div class="col-md-auto align-self-center ml-3">
-                <div class="card" style="width: 18rem;">
-                    <div class="card-body">
-                      <h5 class="card-title">Wrong!</h5>
-                    </div>
-                    <ul class="list-group list-group-flush wrong-card"></ul>
-                  </div>
-            </div>
-        </div>
-	
-	`);
+startGame()
 
-	clickEnter()
-
-});
-
+// This function checks the result when the user presses enter.
 var userScore = 0
 function clickEnter(){
 	$("#input-area").keypress(function(e) {
 		if(e.which == 13) {
 		  var inputValue = $(this).val();
-		  if (rhymeArray[0].rhymes.all.includes(inputValue)){
+		  if(inputValue == "" || inputValue == " " || inputValue === window.randomWordValue){
+			$(this).val('');
+		  } else if (rhymeArray[0].rhymes.all.includes(inputValue)){
 			userScore++
 			$(".correct-card").append(`
 				<li class="list-group-item">${inputValue}</li>
@@ -157,7 +167,48 @@ function clickEnter(){
 	  });
 }
 
-//data[0].images.original.mp4
-// 	  $('.score-screen').removeClass("hide")
+// This function saves user score to the LocalStorage
+function saveScoreList(arr) {
+	localStorage.setItem("scores", JSON.stringify(arr));
+}
 
-// response.data[0].images.original.url
+// This function gets user score from the LocalStorage
+function getScoreList() {
+	return JSON.parse(localStorage.getItem("scores")) || [];
+}
+
+// This function deletes the LocalStorage data
+function clearLocalStorage() {
+	localStorage.removeItem("scores");
+}
+
+// This function save the user score to LocalStorage
+$('.save-score').click(function() {
+	$('#staticBackdrop').modal('hide')
+	var userScoreSave = `${date} - ${hour} - Score: ${userScore}`
+	scoreArray.push(userScoreSave)
+	saveScoreList(scoreArray)
+
+	$('.score-screen').removeClass("hide")
+	var displayScore = getScoreList()
+
+	displayScore.forEach(function(score){
+		$('#highscores').append(`
+			<li>${score}</li>
+		`)
+	});
+});
+
+// Button-Click Sections
+$('.go-back').click(function() {
+	window.location.reload();
+});
+
+$('.close').click(function() {
+	window.location.reload();
+})
+
+$('#clear').click(function() {
+	clearLocalStorage()
+	$('#highscores').children().remove();
+})
