@@ -58,16 +58,22 @@ var options = {
 // This code gets random word
 window.randomWordValue;
 
-var randomWord = fetch(
-  "https://wordsapiv1.p.rapidapi.com/words/?random=true&letters=5&partOfSpeech=verb",
-  options
-).then(function (response) {
-  return response.json();
-});
+function getData() {
+	return fetch("https://wordsapiv1.p.rapidapi.com/words/?random=true&letters=5&partOfSpeech=verb",
+	options).then(function(res) {
+	  return res.json();
+	});
+}
 
-randomWord
+
+getData()
   .then(function (randomWord_data) {
     console.log(randomWord_data.word);
+	if (randomWord_data.word.includes(" ")){
+		getData().then(function (randomWord_data) {
+			getRhymeWord(randomWord_data.word)
+		})
+	}
 	getRhymeWord(randomWord_data.word)
     window.randomWordValue = randomWord_data.word;
   })
@@ -144,6 +150,8 @@ function startGame(){
 
 startGame()
 
+var correctArray = []
+
 // This function checks the result when the user presses enter.
 var userScore = 0
 function clickEnter(){
@@ -153,10 +161,13 @@ function clickEnter(){
 		  if(inputValue == "" || inputValue == " " || inputValue === window.randomWordValue){
 			$(this).val('');
 		  } else if (rhymeArray[0].rhymes.all.includes(inputValue)){
-			userScore++
-			$(".correct-card").append(`
+			if (!correctArray.includes(inputValue)){
+				userScore++
+				$(".correct-card").append(`
 				<li class="list-group-item">${inputValue}</li>
 			`)
+			correctArray.push(inputValue);
+			}
 		  } else{
 			$(".wrong-card").append(`
 				<li class="list-group-item">${inputValue}</li>
@@ -192,7 +203,9 @@ $('.save-score').click(function() {
 	$('.score-screen').removeClass("hide")
 	var displayScore = getScoreList()
 
-	displayScore.forEach(function(score){
+	var reverseDisplay = displayScore.reverse()
+
+	reverseDisplay.forEach(function(score){
 		$('#highscores').append(`
 			<li>${score}</li>
 		`)
