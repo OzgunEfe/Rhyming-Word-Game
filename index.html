@@ -16,82 +16,103 @@
       crossorigin="anonymous"
     />
     <link rel="stylesheet" href="./Assets/Style.css" />
-    <title>Rhyming Word Game</title>
+    <title>Rhyme Up!</title>
   </head>
   <body>
-    <div class="container start-screen">
-      <div class="row justify-content-md-center">
-        <div class="col-md-auto align-self-center mb-4 mt-4">
-          <h1 class="title">Welcome to Rhyming Word Game</h1>
+    <div class="jumbotron jumbotron-fluid >
+    <div class="container full-height container-fluid">
+      <div class="container start-screen">
+        <div class="row justify-content-md-center">
+          <div class="col-md-auto align-self-center mb-4 mt-4">
+            <h1 class="title">Rhyme up before your time's up!</h1>
+          </div>
         </div>
-      </div>
-      <div class="row justify-content-md-center">
-        <div class="col-md-auto align-self-center mb-4 explanation">
-          <p>See how many rhyming words you can find in 20 seconds!</p>
+        <div class="row justify-content-md-center">
+          <div class="col-md-auto align-self-center mb-4 explanation">
+            <p>See how many rhyming words you can find in 20 seconds!</p>
+          </div>
         </div>
-      </div>
-      <div class="row justify-content-md-center">
-        <div class="col-md-auto align-self-center">
-          <button type="button" class="btn btn-secondary start-game">
-            Start Game!
-          </button>
+        <div class="row justify-content-md-center">
+          <div class="col-md-auto align-self-center">
+            <button
+              type="button"
+              class="btn start-game shadow p-3 mb-5 rounded"
+            >
+              Start Game!
+            </button>
+          </div>
         </div>
       </div>
     </div>
+    <canvas id="sandbox"></canvas>
 
     <div class="container game-screen"></div>
 
     <!-- Modal Section -->
-    <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="staticBackdropLabel">Time's up!</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
+    <div
+      class="modal fade"
+      id="staticBackdrop"
+      data-backdrop="static"
+      data-keyboard="false"
+      tabindex="-1"
+      aria-labelledby="staticBackdropLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="staticBackdropLabel">Time's up!</h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="row justify-content-md-center">
+              <div class="col-md-auto">
+                <img id="gif-img" src="" alt="" width="100px" height="100px" />
+              </div>
             </div>
-            <div class="modal-body">
-                <div class="row justify-content-md-center">
-                    <div class="col-md-auto">
-                        <img id="gif-img" src="" alt="" width="100px" height="100px">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col" id="user-score">
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-primary save-score">Save Score</button>
+            <div class="row">
+              <div class="col" id="user-score"></div>
             </div>
           </div>
+          <div class="modal-footer">
+            <button type="button" class="btn save-score">Save Score</button>
+          </div>
         </div>
+      </div>
     </div>
-
 
     <!-- Score Screen -->
-    <div class="container score-screen hide">
-        <div class="row">
-            <div class="col mb-4">
-                <h1>Score List</h1>
-            </div>
+    <div class="container score-screen hide flex justify-content-center">
+      <div class="row">
+        <div class="col mb-4">
+          <h1>Score List</h1>
         </div>
-        <div class="row">
-            <div class="col">
-                <ol id="highscores"></ol>
-            </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <ol id="highscores"></ol>
         </div>
-        <div class="row justify-content-md-left">
-            <div class="col-md-auto mr-5 mt-4">
-                <button type="button" class="btn btn-primary go-back">Go Back</button>
-            </div>
-            <div class="col-md-auto ml-5 mt-4">
-                <button type="button" class="btn btn-primary" id="clear">Clear Highscores</button>
-            </div>
+      </div>
+      <div class="row justify-content-md-left">
+        <div class="col-md-auto mr-5 mt-4">
+          <button type="button" class="btn btn-success go-back btn-lg">
+            Play Again
+          </button>
         </div>
+        <div class="clear-score col-md-auto ml-5 mt-4">
+          <button type="button" class="btn btn-warning btn-lg" id="clear">
+            Clear Score
+          </button>
+        </div>
+      </div>
     </div>
-
 
     <!-- Optional JavaScript; choose one of the two! -->
 
