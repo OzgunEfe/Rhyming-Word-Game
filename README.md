@@ -31,6 +31,9 @@ https://ozgunefe.github.io/Rhyming-Word-Game
 - draw.io
 - GitHub
 
+### Presentation
+https://docs.google.com/presentation/d/1n8waDbugnSFkpnsWIdaOUqBuCWL5fiBH/edit?usp=sharing&ouid=116668396520847210134&rtpof=true&sd=true
+
 ## Screenshots
 ### Start Screen
 ![Before Generating the Password screenshot](./Assets/Screenshots/start-screen.png)
