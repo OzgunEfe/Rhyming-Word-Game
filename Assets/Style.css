@@ -1,11 +1,8 @@
-@media (max-width: 576px) {
+@media (max-width: 768px) {
   #sandbox {
     display: none;
   }
   .wrong-section {
-    display: none;
-  }
-  .clear-score {
     display: none;
   }
 }
