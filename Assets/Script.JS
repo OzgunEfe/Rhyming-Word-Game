@@ -86,9 +86,9 @@ function getRhymeWord(randomWord) {
       return response.json();
     })
     .then(function (response) {
-      console.log(response);
+      // console.log(response);
       rhymeArray.push(response);
-      console.log(rhymeArray[0].rhymes.all);
+      // console.log(rhymeArray[0].rhymes.all);
     })
     .catch(function (err) {
       console.error(err);
@@ -136,7 +136,7 @@ function getData() {
 
 getData()
   .then(function (randomWord_data) {
-    console.log(randomWord_data.word);
+    // console.log(randomWord_data.word);
     if (randomWord_data.word.includes(" ")) {
       getData().then(function (randomWord_data) {
         getRhymeWord(randomWord_data.word);
@@ -192,7 +192,7 @@ function startGame() {
 				  </div>
 			  </div>
 			  <div class="row justify-content-md-center">
-				  <div class="col-md-auto align-items-start mr-3">
+				  <div class="col-md-auto align-items-start mr-5">
 					  <div class="card" style="width: 18rem;">
 						  <div class="card-body">
 							<h5 class="card-title correct">Correct</h5>
@@ -200,7 +200,7 @@ function startGame() {
 						  <ul class="list-group list-group-flush correct-card"></ul>
 						</div>
 				  </div>
-				  <div class=" wrong-section col-md-auto align-items-start ml-3">
+				  <div class=" wrong-section col-md-auto align-items-start">
 					  <div class="card" style="width: 18rem;">
 						  <div class="card-body">
 							<h5 class="card-title wrong">Wrong</h5>
